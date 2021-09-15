@@ -1,6 +1,8 @@
 #importing modules
 import os
 import csv
+import locale
+locale.setlocale(locale.LC_ALL, '')
 
 #declaring variables
 rowCount = 0
@@ -27,4 +29,4 @@ with open(csvpath) as csvfile:
         
     #printing results
     print(f"There are {rowCount} months in the data set.")
-    print(f"The total Profit/Loss is {profitSum}.")
+    print(f"The total Profit/Loss is {locale.currency(profitSum, grouping=True)}.")
