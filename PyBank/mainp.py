@@ -83,11 +83,22 @@ with open(csvpath) as csvfile:
         
     #printing results 
     
-    print("Financial Analysis")
-    print("----------------------------")
-    print(f"Total Months: {rowCount}")
-    print(f"Total: {locale.currency(profitSum, grouping=True)}")
-    print(f"Average Change: {locale.currency(changeAverage, grouping=True)}")
-    print(f"Greatest Increase in Profits: {maxProfitDate} / {locale.currency(maxProfit,grouping=True)}")
-    print(f"Greatest Decrease in Profits: {maxLossDate} / {locale.currency(maxLoss,grouping=True)}")
-    
+    line1 = "Financial Analysis"
+    line2 = "----------------------------"
+    line3 = f"Total Months: {rowCount}"
+    line4 = f"Total: {locale.currency(profitSum, grouping=True)}"
+    line5 = f"Average Change: {locale.currency(changeAverage, grouping=True)}"
+    line6 = f"Greatest Increase in Profits: {maxProfitDate} / {locale.currency(maxProfit,grouping=True)}"
+    line7 = f"Greatest Decrease in Profits: {maxLossDate} / {locale.currency(maxLoss,grouping=True)}"
+
+    textFile = os.path.join('analysis', 'analysis.txt')
+    analysisFile = open(textFile,"w")
+    analysisFile.writelines([line1,"\n", line2, "\n", line3, "\n", line4, "\n", line5, "\n", line6, "\n", line7])
+
+    print(line1)
+    print(line2)
+    print(line3)
+    print(line4)
+    print(line5)
+    print(line6)
+    print(line7)
