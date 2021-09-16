@@ -10,6 +10,10 @@ profitSum = 0
 oldProfit = 0
 newProfit = 0
 profitChange = 0
+maxProfit = 0
+maxLoss = 0
+maxProfitDate = 0
+maxLossDate = 0
 changeSum = 0
 changeAverage = 0
 
@@ -38,9 +42,15 @@ with open(csvpath) as csvfile:
         else:
             newProfit = float(row[1])
             profitChange = (newProfit - oldProfit)
-            print(profitChange)
             changeSum = (changeSum + profitChange)
             oldProfit = float(row[1])
+            if profitChange > maxProfit:
+                maxProfit = profitChange
+                maxProfitDate = row[0]
+            elif profitChange < maxLoss:
+                maxLoss = profitChange
+                maxLossDate = row[0]
+            
     
     #calculate the average change in Profit/Loss
     changeAverage = (changeSum / (rowCount - 1))
@@ -48,4 +58,6 @@ with open(csvpath) as csvfile:
     #printing results
     print(f"There are {rowCount} months in the data set.")
     print(f"The total Profit/Loss is {locale.currency(profitSum, grouping=True)}.")
+    print(f"The greatest increase in profits was {locale.currency(maxProfit,grouping=True)} on {maxProfitDate}.")
+    print(f"The greatest decrease in profits was {locale.currency(maxLoss,grouping=True)} on {maxLossDate}.")
     print(f"The average monthly change in Profit/Loss is {locale.currency(changeAverage, grouping=True)}")
