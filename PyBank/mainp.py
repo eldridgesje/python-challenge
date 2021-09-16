@@ -5,16 +5,28 @@ import locale
 locale.setlocale(locale.LC_ALL, '')
 
 #declaring variables
+
+#the number of total rows
 rowCount = 0
+#the total profit
 profitSum = 0
+#the profit of the previous row
 oldProfit = 0
+#the profit of the current row
 newProfit = 0
+#the difference in profit between the previous and current rows
 profitChange = 0
+#the maximum increase in profit
 maxProfit = 0
+#the maximum decrease in profit
 maxLoss = 0
+#the date of the maximum increase in profit
 maxProfitDate = 0
+#the date of the maximum decrease in profit
 maxLossDate = 0
+#the sum of all the changes in profit
 changeSum = 0
+#the average change in profit
 changeAverage = 0
 
 #reading CSV
@@ -25,9 +37,8 @@ with open(csvpath) as csvfile:
 
     #printing header
     csv_header = next(csvreader)
-    print(f"CSV Header: {csv_header}")
 
-    #looping through the data
+    #LOOPING THROUGH THE DATA
     for row in csvreader:
     
         #counting the number of months of data
@@ -36,17 +47,32 @@ with open(csvpath) as csvfile:
         #summing the total Profit/Loss
         profitSum = (profitSum + float(row[1]))
 
-        #finding the change in Profit/Loss
+        #DOING THE PROFIT/LOSS CALCULATIONS
+
+        #establish the first value for the prior month's profit
         if rowCount == 1:
             oldProfit = float(row[1])
+
+        #calculate on remaining rows
         else:
+            #assign the current month's profit
             newProfit = float(row[1])
+
+            #caculate the change between the current month and the prior month
             profitChange = (newProfit - oldProfit)
+
+            #add the change in profit to the running total
             changeSum = (changeSum + profitChange)
+
+            #assign the current month to the prior month variable for use in the next month
             oldProfit = float(row[1])
+
+            #decide if the current month's change is the highest so far
             if profitChange > maxProfit:
                 maxProfit = profitChange
                 maxProfitDate = row[0]
+
+            #decide if the current month's change is the lowest so far
             elif profitChange < maxLoss:
                 maxLoss = profitChange
                 maxLossDate = row[0]
@@ -55,9 +81,13 @@ with open(csvpath) as csvfile:
     #calculate the average change in Profit/Loss
     changeAverage = (changeSum / (rowCount - 1))
         
-    #printing results
-    print(f"There are {rowCount} months in the data set.")
-    print(f"The total Profit/Loss is {locale.currency(profitSum, grouping=True)}.")
-    print(f"The greatest increase in profits was {locale.currency(maxProfit,grouping=True)} on {maxProfitDate}.")
-    print(f"The greatest decrease in profits was {locale.currency(maxLoss,grouping=True)} on {maxLossDate}.")
-    print(f"The average monthly change in Profit/Loss is {locale.currency(changeAverage, grouping=True)}")
+    #printing results 
+    
+    print("Financial Analysis")
+    print("----------------------------")
+    print(f"Total Months: {rowCount}")
+    print(f"Total: {locale.currency(profitSum, grouping=True)}")
+    print(f"Average Change: {locale.currency(changeAverage, grouping=True)}")
+    print(f"Greatest Increase in Profits: {maxProfitDate} / {locale.currency(maxProfit,grouping=True)}")
+    print(f"Greatest Decrease in Profits: {maxLossDate} / {locale.currency(maxLoss,grouping=True)}")
+    
