@@ -67,10 +67,6 @@ winnerIndex = candidates["votes"].index(maxVotes)
 winner = candidates["name"][winnerIndex]
 
 
-### code to test tie-break functionality
-### candidates["votes"][0] = maxVotes
-### candidates["votes"][1] = maxVotes
-
 #check for a tie by counting number of candidates with winning vote count
 if candidates["votes"].count(maxVotes) > 1:
     winner = "TIE!"
