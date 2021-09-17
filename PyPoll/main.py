@@ -17,7 +17,8 @@ winner = ""
 
 #dictionary to store candidates
 candidates = {"name": [],
-    "votes": []}
+    "votes": [],
+    "percent": []}
 
 #reading CSV
 csvpath = os.path.join('Resources', 'election_data.csv')
@@ -38,6 +39,7 @@ with open(csvpath) as csvfile:
         if row[2] not in candidates["name"]:
             candidates["name"].append(row[2])
             candidates["votes"].append(float(1))
+            candidates["percent"].append(0)
         
         #adding votes to existing candidates
         else:
@@ -62,17 +64,33 @@ if candidates["votes"].count(maxVotes) > 1:
 
 dashes = "----------------------"
 openingLines = ["ELECTION RESULTS",dashes,f"Total Votes: {int(maxVotes)}",dashes]
-
+endLines = [dashes,f"Winner: {winner}",dashes]
+candidateIndex = 0
+percentVote = 0.0
 
 textFile = os.path.join('analysis', 'results.txt')
 
 with open(textFile,"w") as analysisFile:
+
     analysisFile.writelines("\n".join(openingLines))
+    print(len(candidates))
+    for candidate in candidates["name"]:
+        
+        print(candidateIndex)
+        percentVote = float((candidates["votes"][candidateIndex]) / rowCount * 100)
+        candidates["percent"][candidateIndex] = percentVote
+        
+        nameString = str(candidates["name"][candidateIndex])
+        percentString = str(candidates["percent"][candidateIndex])
+        voteString = str(candidates["votes"][candidateIndex])
+        
+        analysisFile.write("\n")
+        analysisFile.write(f"{nameString}: {percentString}% ({voteString})")
+        
+        candidateIndex = (candidateIndex +1)
+    analysisFile.write("\n")
+    analysisFile.writelines("\n".join(endLines))
 
 
-print(f"There are {rowCount} total votes.")
 print(candidates)
-print(maxVotes)
-print(winnerIndex)
-print(winner)
 
