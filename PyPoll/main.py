@@ -46,13 +46,29 @@ with open(csvpath) as csvfile:
 
 
 #determine winner
-
 maxVotes = max(candidates["votes"])
 winnerIndex = candidates["votes"].index(maxVotes)
 winner = candidates["name"][winnerIndex]
 
+#code to test tie-break functionality
+#candidates["votes"][0] = maxVotes
+#candidates["votes"][1] = maxVotes
+
+#check for a tie
+if candidates["votes"].count(maxVotes) > 1:
+    winner = "TIE!"
 
 #printing results
+
+dashes = "----------------------"
+openingLines = ["ELECTION RESULTS",dashes,f"Total Votes: {int(maxVotes)}",dashes]
+
+
+textFile = os.path.join('analysis', 'results.txt')
+
+with open(textFile,"w") as analysisFile:
+    analysisFile.writelines("\n".join(openingLines))
+
 
 print(f"There are {rowCount} total votes.")
 print(candidates)
